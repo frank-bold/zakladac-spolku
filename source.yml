@@ -1,0 +1,197 @@
+---
+question: |
+  Přejete si pokročilejší více obsáhlou verzi stanov?
+subquestion: | 
+  Stanovy jsou nejdůležitějším dokumentem spolku. Upravují základní pravidla jeho fungování, kdo o čem rozhoduje, jakou činnost vykonává a podobně.
+  __________
+  **Základní verzi** zvolte pokud s podobnými dokumenty nemáte žádnou zkušenost či vám stačí nejjednodušší možná varianta stanov.
+
+  **Pokročilejší verzi** zvolte v případě, že již o spolcích máte nějaké povědomí a nebojíte se samostatných textových úprav obsahu stanov.
+field: version
+buttons:
+  - Základní verze: basic
+  - Využiji pokročilejší: advanced
+
+---
+
+
+mandatory: True
+code: |
+  if version == "basic":
+    need(leader)
+  else:
+    need(advanced_form)  
+
+
+---
+
+mandatory: True
+code: |
+  if leader == "predseda" and establish == "meeting":
+    need(stanovy)
+
+---
+
+mandatory: True
+code: |
+  if establish == "meeting":
+    establish = "naisu"
+
+---
+
+question: |
+  Chtete předsedu, nebo výbor jako statutární orgán?
+subquestion: |
+  Statutární orgán je tím, kdo **za spolek jedná navenek.** Za spolek, jako právnickou osobu, musí vždy reálně jednat nějaký člověk. To jsou právě členové statutárního orgánu. Statutární orgán tak doplňuje orgán nejvyšší, kterým je členská schůze. 
+  Zjednodušeně lze tedy říci, že nejvyšší orgán rozhoduje a statutární orgán jedná.
+  __________
+  **Předseda** je jednočlenným orgánem. Ten pak může spolek zastupovat samostatně ve všech věcech.
+
+  **Výbor** bývá nejčastěji tříčlenný, avšak může mít libovolný počet členů. Zpravidla může každý člen výboru jednat za spolek samostatně. Je však možné určit, že jich za spolek musí jednat více současně. To znamená, že na smlouvě uzavírané jménem spolku by musel být například podpis alespoň dvou členů, jinak je neplatná.
+  __________
+  **Doporučení**
+  U menších spolků zpravidla postačí předseda s tím, že je tak ve spolku jeden člověk, „který to vede“ a má o veškerých záležitostech spolku přehled. Výhodou výboru je pak efektivita v tom, že není vždy nutné sehnat jednoho člověka, ale jednání za spolek může vyřídit více lidí. Také se členové výboru mohou navzájem kontrolovat.
+  
+field: leader
+buttons:
+  - Předsedu: predseda
+  - Výbor: vybor 
+
+
+---
+
+
+question: |
+  Chcete založit spolek skrze svolání ustavující schůze, nebo příjetím stanov?
+subquestion: | 
+  Zákon předpokládá dva možné způsoby založení spolku – přijetím stanov či usnesením ustavující schůze. Rozdíly jsou pouze formální, vzniklý spolek je každopádně jeden a ten samý.
+  __________
+  **Pokud zakládáte spolek ve více než třech lidech**, bude pro vás zpravidla lepší svolat ustavující členskou schůzi. Na té se schválí znění stanov, jmenují členové orgánů a určí osoba pověřená zápisem do rejstříku. Tato osoba pak může již vše potřebné sama vyřídit a jde o jediného člověka, jehož podpis bude nutné úředně ověřit. Sepisuje se listina přítomných, na které postačí podpisy bez ověření.
+
+  V případě prostého **přijetí stanov** se nekoná ustavující schůze a první členové orgánů se uvedou přímo do textu stanov. Je však nutné, aby všichni zakádající členové podepsali stanovy s úředně ověřeným podpisem. Tedy je nutné ověřit podpisy alespoň tří různých lidí. 
+  __________
+  **Doporučení**
+  Při založení příjetím stanov ušetříte formalitu v podobě ustavujicí schůze, ale musíte zajistit ověřené podpisy alespoň tří zakladajících členů. Ustavující schůze bývá pohodlnější variantou.
+
+field: establish
+buttons:
+  - Ustavující schůze: meeting
+  - Přijetí stanov: acceptance
+  
+ 
+---
+
+
+question: |
+  Zadejte název vašeho spolku?
+subquestion: |
+  Název musí obsahovat slovo „spolek“, „zapsaný spolek“, případně zkratku „z. s.“ (tj. zapsaný spolek).  Mezi variantami není rozdíl a je tak čístě na Vás, kterou zvolíte.</br>
+  Tedy například: </br>
+    - Frank Bold Society, **z. s.** </br>
+    - **Spolek** kovářů na Bruntálsku </br>
+
+  Zkontrolujte si též v [rejstříku spolků](https://or.justice.cz/ias/ui/rejstrik), že neexistuje spolek se stejným či příliš podobným názvem. V takovém případě by rejstříkový soud odmítl spolek zapsat.
+
+fields:
+  - Název: name
+  
+  
+---
+
+
+question: |
+  Zadejte základní účel vašeho spolku
+subquestion: |
+  Uveďte, jaký je základní účel vašeho spolku. Jde vlastně o cíl, s jakým spolek zakládáte. 
+  Může se tak jednat **například** o: „Zasazení se o ochranu přírody a krajiny na Bruntálsku“, „Rozvoj povědomí a všeobecné vzdělanosti o novodobé historii České republiky“ či „Organizace masopustního průvodu v obci Středupluky“.
+  __________
+  Spolek **nesmí být** založen čistě za účelem podnikání nebo jiné výdělečné činnosti. Spolek však může vyvíjet vedlejší hospodářskou činnost, spočívající v podnikání, podporuje-li tato činnost hlavní činnost spolku, která musí být ve stanovách uvedena.
+  __________
+  Pokud se se spolkem chcete účastnit řízení, ve kterých jsou dotčeny zájmy ochrany přírody, musí být účelem spolku „ochrana přírody a krajiny“.
+fields:
+  - Účel: purpose
+  
+  
+---
+
+
+question: |
+  Zadejte formy činnosti vašeho spolku
+subquestion: |
+  Uveďte, jaké formy činnosti bude spolek používat, tj. jakým způsobem bude spolek naplňovat svůj účel.
+  __________
+  Formami činnosti mohou být **například** pořádání vzdělávacích akcí, účast ve správních řízeních, organizování kampaní a petičních akcí na ochranu přírody pořádáním koncetrům, organizace šachových turnajů, apod. Jsou zcela na vašem uvážení.
+  __________
+  Budoucí doplnění forem činnosti vyžaduje změnu stanov spolku.
+
+fields:
+  - Činnosti: another_purposes
+    datatype: area
+    
+    
+---
+
+
+question: |
+  Zadejte sídlo vašeho spolku? 
+subquestion: |
+  Stačí jméno obce. 
+  __________
+  Můžete uvést i přesnou adresu, avšak pak je nutné při změně sídla v rámci obce změnit též stanovy.
+
+fields:
+  - Sídlo: place
+  
+  
+
+---
+
+question: Zde je ke stažení vygenerovaný dokument Návrh stanov.
+attachment:
+  name: Návrh stanov
+  filename: Návrh stanov
+
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Navrh_stanov_1.docx
+   
+field: stanovy
+buttons:
+  - Pokračovat:
+mandatory: True
+
+
+---
+question: Zde je ke stažení vygenerovaný dokument Prohlášení výboru.
+attachment:
+  name: Prohlášení výboru
+  filename: Prohlášení výboru
+
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Prohlaseni_vyboru_1.docx
+
+
+field: prohlaseni
+buttons:
+  - Hotovo: done
+mandatory: True
+
+---
+
+template: an_purpose
+content: |
+  ${another_purposes}
+  
+  
+---  
+mandatory: True
+code: |
+  if prohlaseni == 'done':
+    command('exit')
+
+
+
+
