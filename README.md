@@ -1,2 +1,2 @@
-# zakladac-spolku7
+# zakladac-spolku
 Hello world
