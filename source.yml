@@ -5,7 +5,6 @@ subquestion: |
   Stanovy jsou nejdůležitějším dokumentem spolku. Upravují základní pravidla jeho fungování, kdo o čem rozhoduje, jakou činnost vykonává a podobně.
   __________
   **Základní verzi** zvolte pokud s podobnými dokumenty nemáte žádnou zkušenost či vám stačí nejjednodušší možná varianta stanov.
-
   **Pokročilejší verzi** zvolte v případě, že již o spolcích máte nějaké povědomí a nebojíte se samostatných textových úprav obsahu stanov.
 field: version
 buttons:
@@ -21,22 +20,13 @@ code: |
     need(leader)
   else:
     need(advanced_form)  
-
-
 ---
 
-mandatory: True
-code: |
-  if leader == "predseda" and establish == "meeting":
-    need(stanovy)
-
----
 
 mandatory: True
 code: |
   if establish == "meeting":
     establish = "naisu"
-
 ---
 
 question: |
@@ -46,7 +36,6 @@ subquestion: |
   Zjednodušeně lze tedy říci, že nejvyšší orgán rozhoduje a statutární orgán jedná.
   __________
   **Předseda** je jednočlenným orgánem. Ten pak může spolek zastupovat samostatně ve všech věcech.
-
   **Výbor** bývá nejčastěji tříčlenný, avšak může mít libovolný počet členů. Zpravidla může každý člen výboru jednat za spolek samostatně. Je však možné určit, že jich za spolek musí jednat více současně. To znamená, že na smlouvě uzavírané jménem spolku by musel být například podpis alespoň dvou členů, jinak je neplatná.
   __________
   **Doporučení**
@@ -67,12 +56,10 @@ subquestion: |
   Zákon předpokládá dva možné způsoby založení spolku – přijetím stanov či usnesením ustavující schůze. Rozdíly jsou pouze formální, vzniklý spolek je každopádně jeden a ten samý.
   __________
   **Pokud zakládáte spolek ve více než třech lidech**, bude pro vás zpravidla lepší svolat ustavující členskou schůzi. Na té se schválí znění stanov, jmenují členové orgánů a určí osoba pověřená zápisem do rejstříku. Tato osoba pak může již vše potřebné sama vyřídit a jde o jediného člověka, jehož podpis bude nutné úředně ověřit. Sepisuje se listina přítomných, na které postačí podpisy bez ověření.
-
   V případě prostého **přijetí stanov** se nekoná ustavující schůze a první členové orgánů se uvedou přímo do textu stanov. Je však nutné, aby všichni zakádající členové podepsali stanovy s úředně ověřeným podpisem. Tedy je nutné ověřit podpisy alespoň tří různých lidí. 
   __________
   **Doporučení**
   Při založení příjetím stanov ušetříte formalitu v podobě ustavujicí schůze, ale musíte zajistit ověřené podpisy alespoň tří zakladajících členů. Ustavující schůze bývá pohodlnější variantou.
-
 field: establish
 buttons:
   - Ustavující schůze: meeting
@@ -89,9 +76,7 @@ subquestion: |
   Tedy například: </br>
     - Frank Bold Society, **z. s.** </br>
     - **Spolek** kovářů na Bruntálsku </br>
-
   Zkontrolujte si též v [rejstříku spolků](https://or.justice.cz/ias/ui/rejstrik), že neexistuje spolek se stejným či příliš podobným názvem. V takovém případě by rejstříkový soud odmítl spolek zapsat.
-
 fields:
   - Název: name
   
@@ -123,7 +108,6 @@ subquestion: |
   Formami činnosti mohou být **například** pořádání vzdělávacích akcí, účast ve správních řízeních, organizování kampaní a petičních akcí na ochranu přírody pořádáním koncetrům, organizace šachových turnajů, apod. Jsou zcela na vašem uvážení.
   __________
   Budoucí doplnění forem činnosti vyžaduje změnu stanov spolku.
-
 fields:
   - Činnosti: another_purposes
     datatype: area
@@ -138,47 +122,51 @@ subquestion: |
   Stačí jméno obce. 
   __________
   Můžete uvést i přesnou adresu, avšak pak je nutné při změně sídla v rámci obce změnit též stanovy.
-
 fields:
   - Sídlo: place
   
   
 
 ---
-
-question: Zde je ke stažení vygenerovaný dokument Návrh stanov.
+mandatory: True
+question: Zde jsou ke stažení vaše vygenerované soubory.
+attachment code: |
+  [Navrh_stanov, Prohlaseni_vyboru, Souhlas_vlastnika]
+  
+---
 attachment:
   name: Návrh stanov
   filename: Návrh stanov
-
+  description: |
+    Dokument Návrhu stanov.
+  variable name: Navrh_stanov
   valid formats:
     - docx
     - pdf    
-  docx template file: Navrh_stanov_1.docx
-   
-field: stanovy
-buttons:
-  - Pokračovat:
-mandatory: True
-
-
+  docx template file: Navrh_stanov.docx
 ---
-question: Zde je ke stažení vygenerovaný dokument Prohlášení výboru.
 attachment:
   name: Prohlášení výboru
   filename: Prohlášení výboru
-
+  description: |
+    Dokument Prohlášení výboru.
+  variable name: Prohlaseni_vyboru
   valid formats:
     - docx
     - pdf    
-  docx template file: Prohlaseni_vyboru_1.docx
+  docx template file: Prohlaseni_vyboru.docx
+---
 
-
-field: prohlaseni
-buttons:
-  - Hotovo: done
-mandatory: True
-
+attachment:
+  name: Souhlas vlastníka
+  filename: Souhlas vlastníka
+  description: |
+    Dokument Souhlasu vlastníka.
+  variable name: Souhlas_vlastnika
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Souhlas_vlastnika.docx
 ---
 
 template: an_purpose
@@ -191,7 +179,3 @@ mandatory: True
 code: |
   if prohlaseni == 'done':
     command('exit')
-
-
-
-
