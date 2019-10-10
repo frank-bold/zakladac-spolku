@@ -1,4 +1,7 @@
+features:
+  progress bar: True
 ---
+mandatory: True
 question: |
   Přejete si pokročilejší více obsáhlou verzi stanov?
 subquestion: | 
@@ -10,25 +13,10 @@ field: version
 buttons:
   - Základní verze: basic
   - Využiji pokročilejší: advanced
-
+progress: 0
 ---
-
-
-mandatory: True
-code: |
-  if version == "basic":
-    need(leader)
-  else:
-    need(advanced_form)  
----
-
-
-mandatory: True
-code: |
-  if establish == "meeting":
-    establish = "naisu"
----
-
+if: |
+  version == "advanced"
 question: |
   Chtete předsedu, nebo výbor jako statutární orgán?
 subquestion: |
@@ -46,10 +34,9 @@ buttons:
   - Předsedu: predseda
   - Výbor: vybor 
 
-
+progress: 15
 ---
-
-
+mandatory: True
 question: |
   Chcete založit spolek skrze svolání ustavující schůze, nebo příjetím stanov?
 subquestion: | 
@@ -65,7 +52,7 @@ buttons:
   - Ustavující schůze: meeting
   - Přijetí stanov: acceptance
   
- 
+progress: 30 
 ---
 
 
@@ -80,7 +67,7 @@ subquestion: |
 fields:
   - Název: name
   
-  
+progress: 30 
 ---
 
 
@@ -96,7 +83,7 @@ subquestion: |
 fields:
   - Účel: purpose
   
-  
+progress: 60  
 ---
 
 
@@ -112,7 +99,7 @@ fields:
   - Činnosti: another_purposes
     datatype: area
     
-    
+progress: 75   
 ---
 
 
@@ -125,14 +112,16 @@ subquestion: |
 fields:
   - Sídlo: place
   
-  
+progress: 45  
 
 ---
 mandatory: True
+if: |
+  leader == "predseda"
 question: Zde jsou ke stažení vaše vygenerované soubory.
 attachment code: |
   [Navrh_stanov, Prohlaseni_vyboru, Souhlas_vlastnika]
-  
+progress: 100  
 ---
 attachment:
   name: Návrh stanov
@@ -168,14 +157,3 @@ attachment:
     - pdf    
   docx template file: Souhlas_vlastnika.docx
 ---
-
-template: an_purpose
-content: |
-  ${another_purposes}
-  
-  
----  
-mandatory: True
-code: |
-  if prohlaseni == 'done':
-    command('exit')
