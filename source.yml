@@ -1,5 +1,21 @@
+objects:
+  - endpoint: DADict
+---
 features:
   progress bar: True
+  
+---
+mandatory: True
+code: |
+  if version == "basic" \
+    and leader == "predseda" \
+    and establish == "meeting":
+      goal = "oneoneone"
+  elif version == "basic"  \
+    and leader == "predseda" \
+    and establish == "acceptance":
+      goal = "oneonetwo"
+  endpoint[goal]
 ---
 mandatory: True
 question: |
@@ -15,8 +31,6 @@ buttons:
   - Využiji pokročilejší: advanced
 progress: 0
 ---
-if: |
-  version == "advanced"
 question: |
   Chtete předsedu, nebo výbor jako statutární orgán?
 subquestion: |
@@ -115,10 +129,10 @@ fields:
 progress: 45  
 
 ---
-mandatory: True
-if: |
-  leader == "predseda"
 question: Zde jsou ke stažení vaše vygenerované soubory.
+field: endpoint['oneoneone']
+buttons:
+  - Exit: exit
 attachment code: |
   [Navrh_stanov, Prohlaseni_vyboru, Souhlas_vlastnika]
 progress: 100  
@@ -157,3 +171,58 @@ attachment:
     - pdf    
   docx template file: Souhlas_vlastnika.docx
 ---
+
+question: Zde jsou ke stažení vaše vygenerované soubory.
+field: endpoint['oneonetwo']
+buttons:
+  - Exit: exit
+attachment code: |
+  [Navrh_stanov, Prohlaseni_vyboru, Souhlas_vlastnika, Schuze]
+progress: 100  
+---
+attachment:
+  name: Návrh stanov
+  filename: Návrh stanov
+  description: |
+    Dokument Návrhu stanov.
+  variable name: Navrh_stanov
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Navrh_stanov.docx
+---
+attachment:
+  name: Prohlášení výboru
+  filename: Prohlášení výboru
+  description: |
+    Dokument Prohlášení výboru.
+  variable name: Prohlaseni_vyboru
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Prohlaseni_vyboru.docx
+---
+
+attachment:
+  name: Souhlas vlastníka
+  filename: Souhlas vlastníka
+  description: |
+    Dokument Souhlasu vlastníka.
+  variable name: Souhlas_vlastnika
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Souhlas_vlastnika.docx
+---
+attachment:
+  name: Schůze
+  filename: Schůze
+  description: |
+    Dokument Schůze.
+  variable name: Schuze
+  valid formats:
+    - docx
+    - pdf    
+  docx template file: Schuze.docx
+---
+
