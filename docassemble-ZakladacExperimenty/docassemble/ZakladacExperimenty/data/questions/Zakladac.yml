@@ -1,0 +1,234 @@
+metadata:
+  title: Experimenty
+  short title: Jakékoli hrátky s kódy
+  comment: Jenom na malé experimentování.
+---
+modules:
+  - .validace
+---
+sections:
+  - Speficikace spolku:
+    - Základní informace
+  - Údaje o spolku
+  - Osobní údaje:
+    - Statutární orgán
+    - Kontrolní komise
+---
+features:
+  progress bar: True
+  progress bar method: stepped
+  navigation: True
+  question help button: True
+  labels above fields: True
+---
+terms:
+  Předseda: |
+    Jednočelenný statutární orgán, rozhoduje o věcech sám.
+  Výbor: |
+    Vícečlenný statutární orgán, rozhodují buď sami, nebo různě...
+---
+objects:
+  - spolek_ucel_seznam: DAList.using(there_are_any=True)
+  - spolek_cinnost_seznam: DAList.using(there_are_any=True)
+---
+mandatory: True
+section: Základní informace
+question: |
+  Má být statutární orgán {Předseda}, nebo {Výbor}?
+fields:
+  - note: |
+      **Předseda** je jednočlenným orgánem. Ten pak může spolek zastupovat samostatně ve všech věcech. 
+    hide if:
+      variable: statutar
+      is: Výbor
+  - note: |
+      **Výbor** bývá nejčastěji tříčlenný, avšak může mít libovolný počet členů. Zpravidla může každý člen výboru jednat za spolek samostatně. Je však možné určit, že jich za spolek musí jednat více současně. To znamená, že na smlouvě uzavírané jménem spolku by musel být například podpis alespoň dvou členů, jinak je neplatná.
+    hide if:
+      variable: statutar
+      is: Předseda
+  - Statutární orgán: statutar
+    input type: radio
+    choices:
+      - Předseda
+      - Výbor
+  - Způsob založení spolku: zpusob_zalozeni
+    input type: radio
+    choices:
+      - Příjetím stanov
+      - Ustavující schůzí
+  - Sídlo spolku: spolek_sidlo
+    address autocomplete: True
+  - Účel spolku: spolek_ucel
+    datatype: area
+  - Formy činnosti spolku: spolek_cinnosti
+    datatype: area
+  - Charakter spolku: spolek_charakter
+    datatype: area
+    required: False
+---
+mandatory: True
+code:
+  spolek_cinnost_seznam = string_pole(spolek_cinnosti);
+  spolek_ucel_seznam = string_pole(spolek_ucel)
+---
+mandatory: True
+section: Základní informace
+question: |
+  Chcete ve spolku kontrolní komisy?
+fields: 
+  - no label: kontrolni_komise
+    input type: radio
+    choices:
+      - Ano
+      - Ne
+  - Počet členů kontrolní komise: kontrolni_komise_pocet
+    datatype: integer
+    min: 2
+    show if:
+      variable: kontrolni_komise
+      is: Ano
+---
+mandatory: True
+section: Údaje o spolku
+question: |
+  Jak se bude váš spolek jmenovat?
+fields:
+  - Název spolku: spolek_nazev
+    hint: Musí obsahova z.s., spolek nebo zapsaný spolek.
+    validate: contains_spolek
+---
+objects:
+  - statutar_clen: DAList.using(object_type=Individual,
+                         there_are_any=True,
+                         complete_attribute='complete')
+---
+code: |
+  statutar_clen[i].name.first
+  statutar_clen[i].complete = True
+---
+question: |
+  % if statutar == 'Výbor':
+  Identifikační údaje členů výboru
+  % elif statutar == 'Předseda':
+  Identifikační údaje předsedy
+  % endif
+fields:
+  - Jméno: statutar_clen[i].name.first
+  - Příjmení: statutar_clen[i].name.last
+  - Bydliště: statutar_clen[i].address
+    address autocomplete: True
+    hint: Ulice čp., PSČ Obec
+  - Datum narození: statutar_clen[i].birthday
+    datatype: date
+list collect:
+  label: |
+    % if statutar == 'Výbor':
+      Člen ${ i+1 }
+    % elif statutar == 'Předseda':
+    
+    % endif
+  allow append: statutar == 'Výbor'
+  allow delete:  statutar == 'Výbor'
+section: Statutární orgán
+---
+event: vybor_prehled
+question: |
+  Složení výboru
+subquestion: |
+  Členové Výboru jsou ${ statutar_clen }.
+  
+  ${ statutar_clen.table }
+  
+  ${ statutar_clen.add_action() }
+buttons: 
+  - Pokračovat: continue
+---
+table: statutar_clen.table
+rows: statutar_clen
+columns:
+  - Jméno a příjmení: |
+      row_item.name.full()
+  - Bydliště: |
+      row_item.address
+  - Datum narození: |
+      format_date(row_item.birthday, 'dd.MM.yyyy')
+edit:
+  - name.first
+---
+objects:
+  - kontrolni_komise_clen: DAList.using(object_type=Individual,
+                         there_are_any=True,
+                         complete_attribute='complete')
+---
+code: |
+  kontrolni_komise_clen[i].name.first
+  kontrolni_komise_clen[i].complete = True
+---
+question: |
+  Identifikační údaje členů Kontrolní komise
+fields:
+  - Jméno: kontrolni_komise_clen[i].name.first
+  - Příjmení: kontrolni_komise_clen[i].name.last
+  - Bydliště: kontrolni_komise_clen[i].address
+    address autocomplete: True
+    hint: Ulice čp., PSČ Obec
+  - Datum narození: kontrolni_komise_clen[i].birthday
+    datatype: date
+list collect:
+  label: |
+      Člen ${ i+1 }
+section: Kontrolní komise
+---
+question: |
+  Složená výboru
+subquestion: |
+  Členové Výboru jsou ${ kontrolni_komise_clen }.
+  
+  ${ kontrolni_komise_clen.table }
+  
+  ${ kontrolni_komise_clen.add_action() }
+buttons: 
+  - Pokračovat: continue
+---
+table: kontrolni_komise_clen.table
+rows: kontrolni_komise_clen
+columns:
+  - Jméno a příjmení: |
+      row_item.name.full()
+  - Bydliště: |
+      row_item.address
+  - Datum narození: |
+      format_date(row_item.birthday, 'dd.MM.yyyy')
+edit:
+  - name.first
+---
+mandatory: True
+question: |
+  To je vše. Díky!
+subquestion: |
+  Tady jsou stanovy....
+attachment code: |
+  [vybor_souhlas, stanovy]
+buttons:
+  - Exit: exit
+  - Restart: restart
+sets: all_done
+progress: 100
+---
+attachment:
+  name: Souhlas členů výboru
+  filename: vybor_souhlas
+  docx template file: vybor_souhlas.docx
+  variable name: vybor_souhlas
+  valid formats:
+    - pdf
+    - docx
+---
+attachment:
+  name: Stanovy spolku
+  filename: stanovy
+  docx template file: stanovy.docx
+  variable name: stanovy
+  valid formats:
+    - pdf
+    - docx
