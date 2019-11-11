@@ -31,7 +31,6 @@ objects:
   - spolek_ucel_seznam: DAList.using(there_are_any=True)
   - spolek_cinnost_seznam: DAList.using(there_are_any=True)
 ---
-mandatory: True
 section: Základní informace
 question: |
   Má být statutární orgán {Předseda}, nebo {Výbor}?
